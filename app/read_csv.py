@@ -19,7 +19,7 @@ def read_csv_dict(path):
       country_dict = {key: value for key, value in iterable}
       data.append(country_dict)
     return data
-    
+
 if __name__ == '__main__':
     data = read_csv_dict('./app/data.csv')
     print(data[0])

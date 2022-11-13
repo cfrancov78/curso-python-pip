@@ -1,25 +1,25 @@
 import utils
-
-data = [
-  {
-    'Country':'Colombia',
-    'Population':300
-  },
-  {
-    'Country':'Bolivia',
-    'Population':300
-  }
-]
+import read_csv
+import charts
 
 def run():
-  keys, values = utils.get_population()
-  print(keys, values)
+  data = read_csv.read_csv_dict('data.csv')
+  data = list(filter(lambda item: item['Continent'] == 'South America', data))
+  
+  countries = list(map(lambda x: x['Country/Territory'], data))
+  percentages = list(map(lambda x:x['World Population Percentage'], data))
+  charts.generate_pie_chart(countries, percentages)
   
   country = input('Type Country => ')
+  country_data = utils.get_data_country(data, country)
   
-  result = list(utils.population_by_country(data,country))
-  print(result)
+  if len(country_data) > 0:
+    new_data_country = utils.get_new_data_country(country_data)
+    population_data = utils.format_key(new_data_country)
+    labels = population_data.keys()
+    values = population_data.values()
+    charts.generate_bar_chart(country, labels, values)
 
 if __name__ == '__main__':
   run()
-  
+
